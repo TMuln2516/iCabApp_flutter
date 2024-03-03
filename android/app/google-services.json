@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "89490953519",
+    "project_id": "icabapp-e069d",
+    "storage_bucket": "icabapp-e069d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:89490953519:android:0f9a8b338fba4eb1e9bdda",
+        "android_client_info": {
+          "package_name": "com.example.icabapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC9zEPUEX7pU7FO3UTwKGboFGEZzfr66Yk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
