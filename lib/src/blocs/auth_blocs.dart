@@ -50,6 +50,13 @@ class SignUpBloc {
     }, onRegisterErr);
   }
 
+  void signIn(String mail, String pass, Function onSuccess,
+      Function(String) onSignInErr) {
+    _firebaseAuth.signIn(mail, pass, () {
+      onSuccess();
+    }, onSignInErr);
+  }
+
   void dispose() {
     _nameStreamController.close();
     _phoneStreamController.close();

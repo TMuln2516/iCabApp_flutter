@@ -1,5 +1,9 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:icabapp/src/blocs/auth_blocs.dart';
+import 'package:icabapp/src/dialogs/loading_dialog.dart';
+import 'package:icabapp/src/dialogs/showerr_dialog.dart';
+import 'package:icabapp/src/resourcers/home_page.dart';
 import 'package:icabapp/src/resourcers/signup_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -10,6 +14,11 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passController = TextEditingController();
+
+  final SignUpBloc _bloc = SignUpBloc();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,11 +57,12 @@ class _LoginPageState extends State<LoginPage> {
                       fontWeight: FontWeight.normal),
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.fromLTRB(0, 100, 0, 0),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 100, 0, 0),
                 child: TextField(
-                  style: TextStyle(fontSize: 18, color: Colors.black),
-                  decoration: InputDecoration(
+                  controller: _emailController,
+                  style: const TextStyle(fontSize: 18, color: Colors.black),
+                  decoration: const InputDecoration(
                     labelText: "Email",
                     labelStyle: TextStyle(color: Colors.grey),
                     prefixIcon: SizedBox(
@@ -64,11 +74,13 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                 child: TextField(
-                  style: TextStyle(color: Colors.black, fontSize: 18),
-                  decoration: InputDecoration(
+                  obscureText: true,
+                  controller: _passController,
+                  style: const TextStyle(color: Colors.black, fontSize: 18),
+                  decoration: const InputDecoration(
                     labelText: "Password",
                     labelStyle: TextStyle(color: Colors.grey),
                     prefixIcon: SizedBox(
@@ -96,7 +108,7 @@ class _LoginPageState extends State<LoginPage> {
                   width: double.infinity,
                   height: 50,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: onPressedLogIn,
                     style: const ButtonStyle(
                         backgroundColor: MaterialStatePropertyAll(Colors.blue),
                         shape: MaterialStatePropertyAll(RoundedRectangleBorder(
@@ -136,5 +148,18 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+
+  void onPressedLogIn() {
+    String mail = _emailController.text;
+    String pass = _passController.text;
+    LoadingDialog.showLoadingDialog(context, "Loading...");
+    _bloc.signIn(mail, pass, () {
+      LoadingDialog.hideLoadingDialog(context);
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => const HomePage()));
+    }, (msg) {
+      ErrorDialog.showErrDialog(context, "Sign-in Error", msg);
+    });
   }
 }
